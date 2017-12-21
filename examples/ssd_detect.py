@@ -18,8 +18,9 @@ sys.path.insert(0, 'python')
 
 import caffe
 
-# caffe.set_device(0)
-caffe.set_mode_cpu()
+caffe.set_device(1)
+caffe.set_mode_gpu()
+# caffe.set_mode_cpu()
 
 from google.protobuf import text_format
 from caffe.proto import caffe_pb2
@@ -65,9 +66,9 @@ transformer.set_channel_swap('data', (2, 1, 0))  # the reference model has chann
 image_resize = 300
 net.blobs['data'].reshape(1, 3, image_resize, image_resize)
 
-image_dir = '~/ws/data/images/2017-09-28'
-for image_path in os.listdir(image_dir):
-    image = caffe.io.load_image(image_path)
+image_dir = '/home/grayson/ws/data/images/2017-09-28-resize'
+for image_file_name in os.listdir(image_dir):
+    image = caffe.io.load_image(os.path.join(image_dir, image_file_name))
 
     transformed_image = transformer.preprocess('data', image)
     net.blobs['data'].data[...] = transformed_image
@@ -99,7 +100,7 @@ for image_path in os.listdir(image_dir):
     # plt.imshow(image)
     # currentAxis = plt.gca()
 
-    print('{}\n'.format(image_path))
+    print('{}\n'.format(image_file_name))
     for i in xrange(top_conf.shape[0]):
         xmin = int(round(top_xmin[i] * image.shape[1]))
         ymin = int(round(top_ymin[i] * image.shape[0]))
