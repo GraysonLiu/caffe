@@ -255,13 +255,15 @@ int main(int argc, char** argv) {
         "    ssd_detect [FLAGS] model_file weights_file list_file\n");
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-  if (argc < 4) {
-    gflags::ShowUsageWithFlagsRestrict(argv[0], "examples/ssd/ssd_detect");
-    return 1;
-  }
+//  if (argc < 4) {
+//    gflags::ShowUsageWithFlagsRestrict(argv[0], "examples/ssd/ssd_detect");
+//    return 1;
+//  }
 
-  const string& model_file = argv[1];
-  const string& weights_file = argv[2];
+//  const string& model_file = argv[1];
+  const string& model_file = "/home/grayson/ws/caffe/models/VGGNet/VOC0712/SSD_300x300/deploy.prototxt";
+//  const string& weights_file = argv[2];
+  const string& weights_file = "/home/grayson/ws/caffe/models/VGGNet/VOC0712/SSD_300x300/VGG_VOC0712_SSD_300x300_iter_120000.caffemodel";
   const string& mean_file = FLAGS_mean_file;
   const string& mean_value = FLAGS_mean_value;
   const string& file_type = FLAGS_file_type;
@@ -283,7 +285,8 @@ int main(int argc, char** argv) {
   std::ostream out(buf);
 
   // Process image one by one.
-  std::ifstream infile(argv[3]);
+//  std::ifstream infile(argv[3]);
+  std::ifstream infile("/home/grayson/ws/caffe/models/VGGNet/VOC0712/SSD_300x300/list_file");
   std::string file;
   while (infile >> file) {
     if (file_type == "image") {
