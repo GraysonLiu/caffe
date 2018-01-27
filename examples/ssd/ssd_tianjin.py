@@ -79,9 +79,9 @@ resume_training = True
 remove_old_models = False
 
 # The database file for training data. Created by data/tianjin_selected/create_data.sh
-train_data = "examples/tianjin_selected/tianjin_selected_trainval_lmdb"
+train_data = "/home/grayson/data/tianjin_selected/lmdb/tianjin_selected_trainval_lmdb"
 # The database file for testing data. Created by data/tianjin_selected/create_data.sh
-test_data = "/media/grayson/DATA/tianjin_selected/lmdb/tianjin_selected_test_lmdb"
+test_data = "/home/grayson/data/tianjin_selected/lmdb/tianjin_selected_test_lmdb"
 # Specify the batch sampler.
 resize_width = 300
 resize_height = 300
@@ -243,7 +243,7 @@ snapshot_dir = "models/VGGNet/tianjin_selected/{}".format(job_name)
 # Directory which stores the job script and log file.
 job_dir = "jobs/VGGNet/tianjin_selected/{}".format(job_name)
 # Directory which stores the detection results.
-output_result_dir = "/media/grayson/DATA/tianjin_selected/results/{}".format(job_name)
+output_result_dir = "/home/grayson/data/tianjin_selected/results/{}".format(job_name)
 
 # model definition files.
 train_net_file = "{}/train.prototxt".format(save_dir)
@@ -256,14 +256,14 @@ snapshot_prefix = "{}/{}".format(snapshot_dir, model_name)
 job_file = "{}/{}.sh".format(job_dir, model_name)
 
 # Stores the test image names and sizes. Created by data/tianjin_selected/create_list.sh
-name_size_file = "/media/grayson/DATA/tianjin_selected/test_name_size.txt"
+name_size_file = "/home/grayson/data/tianjin_selected/test_name_size.txt"
 # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
-pretrain_model = "/home/grayson/ws/caffe/models/VGGNet/VOC0712/SSD_300x300/VGG_VOC0712_SSD_300x300_iter_120000.caffemodel"
+pretrain_model = "/home/grayson/ws/caffe/models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
 # Stores LabelMapItem.
-label_map_file = "/media/grayson/DATA/tianjin_selected/labelmap_tianjin.prototxt"
+label_map_file = "/home/grayson/data/tianjin_selected/labelmap_tianjin.prototxt"
 
 # MultiBoxLoss parameters.
-num_classes = 21
+num_classes = 6
 share_location = True
 background_label_id=0
 train_on_diff_gt = True
@@ -334,8 +334,8 @@ gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 8
-accum_batch_size = 8
+batch_size = 12
+accum_batch_size = 12
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
 device_id = 0
@@ -372,7 +372,7 @@ solver_param = {
     'momentum': 0.9,
     'iter_size': iter_size,
     'max_iter': 120000,
-    'snapshot': 80000,
+    'snapshot': 2000,
     'display': 10,
     'average_loss': 10,
     'type': "SGD",
@@ -382,7 +382,7 @@ solver_param = {
     'snapshot_after_train': True,
     # Test parameters
     'test_iter': [test_iter],
-    'test_interval': 10000,
+    'test_interval': 2000,
     'eval_type': "detection",
     'ap_version': "11point",
     'test_initialization': False,
