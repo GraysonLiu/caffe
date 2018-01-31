@@ -78,10 +78,15 @@ resume_training = True
 # If true, Remove old model files.
 remove_old_models = False
 
+data_root_dir = "/home/grayson/data"
+dataset_name = "tianjin_selected"
+db = "lmdb"
+
+
 # The database file for training data. Created by data/tianjin_selected/create_data.sh
-train_data = "/home/grayson/data/tianjin_selected/lmdb/tianjin_selected_trainval_lmdb"
+train_data = os.path.join(data_root_dir, dataset_name, db, "trainval_lmdb")
 # The database file for testing data. Created by data/tianjin_selected/create_data.sh
-test_data = "/home/grayson/data/tianjin_selected/lmdb/tianjin_selected_test_lmdb"
+test_data = os.path.join(data_root_dir, dataset_name, db, "test_lmdb")
 # Specify the batch sampler.
 resize_width = 300
 resize_height = 300
@@ -234,16 +239,16 @@ else:
 # Modify the job name if you want.
 job_name = "SSD_{}".format(resize)
 # The name of the model. Modify it if you want.
-model_name = "VGG_tianjin_selected_{}".format(job_name)
+model_name = "VGG_{}_{}".format(dataset_name, job_name)
 
 # Directory which stores the model .prototxt file.
-save_dir = "models/VGGNet/tianjin_selected/{}".format(job_name)
+save_dir = "models/VGGNet/{}/{}".format(dataset_name, job_name)
 # Directory which stores the snapshot of models.
-snapshot_dir = "models/VGGNet/tianjin_selected/{}".format(job_name)
+snapshot_dir = "models/VGGNet/{}/{}".format(dataset_name, job_name)
 # Directory which stores the job script and log file.
-job_dir = "jobs/VGGNet/tianjin_selected/{}".format(job_name)
+job_dir = "jobs/VGGNet/{}/{}".format(dataset_name, job_name)
 # Directory which stores the detection results.
-output_result_dir = "/home/grayson/data/tianjin_selected/results/{}".format(job_name)
+output_result_dir = "/{}/{}/results/{}".format(data_root_dir, dataset_name, job_name)
 
 # model definition files.
 train_net_file = "{}/train.prototxt".format(save_dir)
@@ -256,11 +261,11 @@ snapshot_prefix = "{}/{}".format(snapshot_dir, model_name)
 job_file = "{}/{}.sh".format(job_dir, model_name)
 
 # Stores the test image names and sizes. Created by data/tianjin_selected/create_list.sh
-name_size_file = "/home/grayson/data/tianjin_selected/test_name_size.txt"
+name_size_file = "/{}/{}/test_name_size.txt".format(data_root_dir, dataset_name)
 # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
 pretrain_model = "/home/grayson/ws/caffe/models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
 # Stores LabelMapItem.
-label_map_file = "/home/grayson/data/tianjin_selected/labelmap_tianjin.prototxt"
+label_map_file = "/{}/{}/labelmap_{}.prototxt".format(data_root_dir, dataset_name, dataset_name)
 
 # MultiBoxLoss parameters.
 num_classes = 6
